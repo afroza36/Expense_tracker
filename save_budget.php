@@ -11,17 +11,16 @@ if ($conn->connect_error) {
 }
 
 // Retrieve form data
-$name = $_POST['name'];
-$email = $_POST['email'];
-$password = $_POST['password'];
+$budget=$_POST["budget"] ;
+$person_id=$_POST["person_id"];
 
 // Sanitize and validate inputs (optional, but highly recommended)
 
 // Insert user data into the database
-$sql = "INSERT INTO sign_info (name, email, password) VALUES ('$name', '$email', '$password')";
+$sql = "INSERT INTO budget (budget, person_id) VALUES ('$budget', '$person_id')";
 
 if ($conn->query($sql) === TRUE) {
-    echo "User registered successfully!";
+    echo "budget save successfully!";
 } else {
     echo "Error: " . $sql . "<br>" . $conn->error;
 }
