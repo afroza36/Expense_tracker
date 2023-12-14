@@ -22,6 +22,7 @@ $sql = "INSERT INTO sign_info (name, email, password) VALUES ('$name', '$email',
 
 if ($conn->query($sql) === TRUE) {
     echo "User registered successfully!";
+    header("location: login.html");
 } else {
     echo "Error: " . $sql . "<br>" . $conn->error;
 }

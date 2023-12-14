@@ -29,8 +29,11 @@ if (mysqli_num_rows($result)> 0) {//checks if the result of the SQL query contai
 
         session_start();
 
-        $_SESSION["id"] = $user['id'];//i save database user id in session
+        $_SESSION["id"] = $user['id'];
+        //i save database user id in session
         // Perform further actions after successful login (e.g., redirect to a restricted area)
+
+        header("location:budget.php");
     } else {
         echo "Incorrect password";
     }
