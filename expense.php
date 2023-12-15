@@ -13,7 +13,7 @@ session_start();
 <body>
    <h1>Add Expense</h1>
    
-   <form action="process_add_expense.php" method="POST">
+   <form action="save_expense.php" method="POST">
        <label for="expenseDate">Date:</label>
        <input type="date" id="expenseDate" name="expenseDate" required><br><br>
 
