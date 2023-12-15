@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Budget Dashboard</title>
+    <!-- You may want to link to your CSS and JavaScript files here -->
+</head>
+<body>
+    <div class="dashboard">
+        <h1>Budget Dashboard</h1>
+
+        <div class="month-selection">
+            <a href="?month=previous" id="prevMonth">&lt; Previous Month</a>
+            <span id="currentMonth">Month Name</span>
+            <a href="?month=next" id="nextMonth">Next Month &gt;</a>
+        </div>
+
+        <div class="budget-summary">
+            <h2>Budget Summary for <span id="summaryMonth">Month Name</span></h2>
+            <p>Total Budget: <span id="totalBudget">$0.00</span></p>
+            <p>Total Spent: <span id="totalSpent">$0.00</span></p>
+            <p>Remaining: <span id="remaining">$0.00</span></p>
+        </div>
+
+        <div class="actions">
+            <!-- Buttons for adding expense and category -->
+            <button onclick="window.location.href='expense.html';">Add Expense</button>
+            <button onclick="window.location.href='category.php';">Add Category</button>
+        </div>
+
+        <div class="expense-list">
+            <h2>Expenses</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Description</th>
+                        <th>Category</th>
+                        <th>Amount</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Expenses will be listed here -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        // Implement JavaScript if needed for dynamic behavior
+    </script>
+</body>
+</html>

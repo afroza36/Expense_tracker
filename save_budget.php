@@ -19,7 +19,7 @@ $month=$_POST["month"];
 
 // Insert user data into the database
 $check_date = "SELECT * FROM budget WHERE person_id='$person_id' and month='$month'";
-$result=mysqli_query($conn,$check_date);
+$result=mysqli_query($conn,$check_date);//database query
 if (mysqli_num_rows($result)> 0) {
     $update_que="UPDATE budget SET budget = '$budget' WHERE person_id = '$person_id' AND month = '$month'";
     if ($conn->query($update_que) === TRUE) {
@@ -35,10 +35,10 @@ else{
 
 $bud_month_insert = "INSERT INTO budget (budget, person_id, month) VALUES ('$budget', '$person_id','$month')";
 
-if ($conn->query($sql) === TRUE) {
+if ($conn->query($bud_month_insert) === TRUE) {
     echo "budget save successfully!";
 } else {
-    echo "Error: " . $sql . "<br>" . $conn->error;
+    echo "Error: " . $bud_month_insert . "<br>" . $conn->error;
 }
 }
 

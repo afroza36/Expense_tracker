@@ -12,6 +12,7 @@ session_start();
   <form action="save_budget.php" method="POST">
     <label for="budget">Monthly Budget:</label>
     <input type="number" id="budget" name="budget" required><br><br>
+    <!-- # required function :submit the form without entering a value in this input, the browser will display a message -->
 
     <label for="month">Month:</label>
     <select id="month" name="month" required>
@@ -30,7 +31,7 @@ session_start();
     </select><br><br>
 
     <input type="number" id="person_id" name="person_id" value="<?php echo $_SESSION['id'];?>" hidden>
-
+    <!-- # $_session theke j person log in korse tar id asse -->
     <input type="submit" value="Insert Budget">
   </form>
 </body>
