@@ -26,7 +26,7 @@ if (mysqli_num_rows($result)> 0) {
     $update_que="UPDATE category SET budget = '$budget' WHERE person_id = '$person_id' AND month = '$month' AND name='$name'";
     if ($conn->query($update_que) === TRUE) {
         echo "category updated successfully!";
-        header("location:dashboard.html");
+        header("location:dashboard.php");
     } else {
         echo "Error: " . $update_que . "<br>" . $conn->error;
     }
@@ -37,6 +37,7 @@ else{
         
         if ($conn->query($cat_month_insert) === TRUE) {
             echo "category save successfully!";
+            header("location:dashboard.php");
         } else {
             echo "Error: " . $bud_month_insert . "<br>" . $conn->error;
         }

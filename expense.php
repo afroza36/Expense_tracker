@@ -25,6 +25,7 @@ session_start();
 
        <label for="expenseCategory">Category:</label>
        <select id="expenseCategory" name="expenseCategory" required>
+
            <option value="">--Select a Category--</option>
            <!-- Category options will be populated here -->
            <?php
@@ -67,9 +68,10 @@ session_start();
         </select><br><br>
 
        <input type="submit" value="Add Expense">
+       <button onclick="window.location.href='category.php';">Add Category</button>
    </form>
    <!-- Link to go back to the dashboard -->
-   <a href="dashboard.html">Back to Dashboard</a>
+   <a href="dashboard.php">Back to Dashboard</a>
 
    <!-- JavaScript files and scripts -->
 </body>

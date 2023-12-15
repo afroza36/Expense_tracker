@@ -39,7 +39,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if ($conn->query($sql) === TRUE) {
         echo "New record created successfully";
         // Redirect to the dashboard or other appropriate page
-        header('Location: dashboard.html');
+        header('Location: dashboard.php');
     } else {
         echo "Error: " . $sql . "<br>" . $conn->error;
     }
