@@ -27,27 +27,13 @@ session_start();
        <select id="expenseCategory" name="expenseCategory" required>
 
            <option value="">--Select a Category--</option>
-           <!-- Category options will be populated here -->
+           
            <?php
-           //This PHP block is where you connect to database and query for categories.
-           // You will need to adjust the following code to match your own database connection details and table/column names.
-
-           // Database connection parameters (example settings; replace with your own)
-           $host = 'localhost:3366';
-           $username = 'root';
-           $password = '';
-           $dbname = 'expense';
-
-           // Create connection
-           $conn = new mysqli($host, $username, $password, $dbname);
-
-           // Check connection
-           if ($conn->connect_error) {
-               die("Connection failed: " . $conn->connect_error);
-           }
+           
+           
            $currentMonthName = date('F');
          
-
+            require "db.php";
            // Query the database for categories
            $sql = "SELECT  name FROM category WHERE person_id='$_SESSION[id]' AND month= '$currentMonthName'"; // Replace with your actual SQL query
            echo $sql;

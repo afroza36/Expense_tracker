@@ -1,16 +1,8 @@
 <?php
-// Establish database connection
-$servername = "localhost:3366";
-$username = "root";
-$password = "";
-$dbname = "expense";
+ 
+require "db.php";
 
-$conn = new mysqli($servername, $username, $password, $dbname);
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
 
-// Retrieve form data
 $budget=$_POST["budget"] ;
 $person_id=$_POST["person_id"];
 $month=$_POST["month"];

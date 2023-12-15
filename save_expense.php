@@ -12,18 +12,7 @@ if (!isset($_SESSION['id'])) {
 // Check if the form was submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Database connection parameters (example settings; replace with your own)
-    $host = 'localhost:3366';
-    $username = 'root';
-    $password = '';
-    $dbname = 'expense';
-
-    // Create a new connection to the database
-    $conn = new mysqli($host, $username, $password, $dbname);
-
-    // Check the connection
-    if ($conn->connect_error) {
-        die("Connection failed: " . $conn->connect_error);
-    }
+    require "db.php";
     $personId = $_SESSION['id']; 
     $expenseDate = $_POST['expenseDate'];
     $expenseDescription = $_POST['expenseDescription'];

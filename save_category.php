@@ -1,16 +1,5 @@
 <?php
-$servername = "localhost:3366"; // Server name
-$username = "root"; // Database username
-$password = ""; // Database password
-$dbname = "expense"; // Database name
-
-// Create connection
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-// Check connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
+require "db.php";
 
 $name = $_POST['categoryName'];
 $month = $_POST['month'];
