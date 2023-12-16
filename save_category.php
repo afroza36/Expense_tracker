@@ -1,10 +1,41 @@
+
 <?php
+session_start();
+
 require "db.php";
 
-$name = $_POST['categoryName'];
 $month = $_POST['month'];
+
+$sql="SELECT budget from budget WHERE month='$month' AND person_id='$_SESSION[id]'";
+
+$result=mysqli_query($conn,$sql);
+$budget=mysqli_fetch_array($result);
+
+$bud_int=(int)$budget["budget"];
+
+$sum_category = "SELECT SUM(budget) as sum FROM category WHERE person_id='$_SESSION[id]' and month='$month'";
+$result=mysqli_query($conn,$sum_category);
+$sum_category = mysqli_fetch_array($result);
+$prev_total=(int)$sum_category['sum'];
+
+
+
+
+$name = $_POST['categoryName'];
 $budget = $_POST['budget'];
 $person_id=$_POST["person_id"];
+
+
+$category_total=$prev_total+$budget;
+echo $category_total .  ">" . $bud_int;
+if ($category_total>$bud_int) {
+     echo $category_total .  ">" . $bud_int;
+     $_SESSION['error']='category budget exceeded total budget';
+     header('location:category.php');
+ }
+else{
+
+
 
 $sql = "INSERT INTO category (name,month,budget,) VALUES ('$name','$month','$budget')";
 $check_category = "SELECT * FROM category WHERE person_id='$person_id' and month='$month'and name='$name'";
@@ -20,6 +51,7 @@ if (mysqli_num_rows($result)> 0) {
         echo "Error: " . $update_que . "<br>" . $conn->error;
     }
 }
+
 else{
 
         $cat_month_insert = "INSERT INTO category (name,budget, person_id, month) VALUES ('$name','$budget', '$person_id','$month')";
@@ -31,10 +63,10 @@ else{
             echo "Error: " . $bud_month_insert . "<br>" . $conn->error;
         }
         }
-        
+           
         $conn->close();
+    }
         ?>
-
 
 
 

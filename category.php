@@ -1,6 +1,11 @@
 <?php
 // Start the session
 session_start();
+if (isset($_SESSION["error"])){
+   $error=$_SESSION["error"];
+   unset($_SESSION["error"]);
+}
+
 ?>
 
 
@@ -12,7 +17,12 @@ session_start();
 <title>Insert Category</title>
 </head>
 <body>
-
+<?php
+// Display the error message if an error is set
+if (isset($error)) {
+    echo "<p>Error: " . htmlspecialchars($error) . "</p>"; // Always escape output
+}
+?>
 <h2>Category Insertion Form</h2>
 
 <form action="save_category.php" method="post">

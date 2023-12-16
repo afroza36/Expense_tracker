@@ -1,5 +1,9 @@
 <?php
 session_start();
+if (isset($_SESSION["error"])){
+    $error=$_SESSION["error"];
+    unset($_SESSION["error"]);
+ }
 ?>
 
 <!DOCTYPE html>
@@ -11,6 +15,13 @@ session_start();
    <!-- Stylesheet links and other head elements go here -->
 </head>
 <body>
+<?php
+// Display the error message if an error is set
+if (isset($error)) {
+    echo "<p>Error: " . htmlspecialchars($error) . "</p>"; // Always escape output
+}
+?>
+
    <h1>Add Expense</h1>
    
    <form action="save_expense.php" method="POST">
