@@ -1,6 +1,9 @@
-# Project Design
-1.signup / login page for user.
+# prerequisite
+* xampp
+* vscode
 
-2.monthly budget insertion form.
+# Setup
+* clone the repo in a xampp htdocs folder
+* create database name 'expense' 
+* export the sql dump into the sql database
 
-3.Dashboard page.
