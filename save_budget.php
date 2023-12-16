@@ -16,6 +16,7 @@ if (mysqli_num_rows($result)> 0) {
     $update_que="UPDATE budget SET budget = '$budget' WHERE person_id = '$person_id' AND month = '$month'";
     if ($conn->query($update_que) === TRUE) {
         echo "budget updated successfully!";
+        header("location:dashboard.php");
     } else {
         echo "Error: " . $update_que . "<br>" . $conn->error;
     }

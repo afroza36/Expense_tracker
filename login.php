@@ -25,7 +25,7 @@ if (mysqli_num_rows($result)> 0) {//checks if the result of the SQL query contai
         //i save database user id in session
         // Perform further actions after successful login (e.g., redirect to a restricted area)
 
-        header("location:budget.php");
+        header("location:dashboard.php");
     } else {
         echo "Incorrect password";
     }

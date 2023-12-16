@@ -60,7 +60,9 @@ $conn->close();
 
         <div class="budget-summary">
             <h2>Budget Summary for <span id="summaryMonth">Month Name</span></h2>
-            <p>Total Budget: <span id="totalBudget">$ <?php echo $budget['budget'] ?></span></p>
+            <p>Total Budget: <span id="totalBudget">$ <?php echo $budget['budget'] ?></span>
+            <button onclick="window.location.href='budget.php';">Update Budget</button></p>
+
             <p>Total Spent: <span id="totalSpent"><?php echo $total_ex ?></span></p>
             <p>Remaining: <span id="remaining"><?php echo $remain_total_ex ?></span></p>
         </div>
