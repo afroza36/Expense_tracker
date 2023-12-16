@@ -11,8 +11,13 @@ $budget=mysqli_fetch_array($result);
 
 // Define query to select expenses from database
 $query = "SELECT * FROM expense WHERE MONTHNAME(tyme) = '$currentMonthName' AND person_id='$_SESSION[id]'  ORDER BY tyme DESC ";
+$query_total_ex="SELECT SUM(amount) as sum FROM expense WHERE MONTHNAME(tyme) = '$currentMonthName' AND person_id='$_SESSION[id]'  ORDER BY tyme DESC ";
 
-// Execute the query
+$result_total_ex=mysqli_query($conn,$query_total_ex);
+$total_ex=mysqli_fetch_array($result_total_ex);
+$total_ex=$total_ex['sum'];
+$remain_total_ex=$budget['budget']-$total_ex;
+
 $result = $conn->query($query);
 
 // Check for errors
@@ -25,6 +30,7 @@ $expenses = [];
 while($row = $result->fetch_assoc()) {
     $expenses[] = $row;
 }
+
 
 // Close the connection
 $conn->close();
@@ -55,8 +61,8 @@ $conn->close();
         <div class="budget-summary">
             <h2>Budget Summary for <span id="summaryMonth">Month Name</span></h2>
             <p>Total Budget: <span id="totalBudget">$ <?php echo $budget['budget'] ?></span></p>
-            <p>Total Spent: <span id="totalSpent">$0.00</span></p>
-            <p>Remaining: <span id="remaining">$0.00</span></p>
+            <p>Total Spent: <span id="totalSpent"><?php echo $total_ex ?></span></p>
+            <p>Remaining: <span id="remaining"><?php echo $remain_total_ex ?></span></p>
         </div>
 
         <div class="actions">
@@ -91,6 +97,8 @@ $conn->close();
           
                 </tbody>
             </table>
+            <a href="download_expenses.php">Download as CSV</a>
+
         </div>
     </div>
 
