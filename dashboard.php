@@ -40,13 +40,89 @@ $conn->close();
 
 
 
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Budget Dashboard</title>
-    <!-- You may want to link to your CSS and JavaScript files here -->
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        .dashboard {
+            background-color: white;
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1, h2 {
+            color: #333;
+        }
+        .month-selection {
+            text-align: center;
+            margin: 20px 0;
+        }
+        .month-selection a {
+            text-decoration: none;
+            color: #00f;
+            margin: 0 10px;
+        }
+        .budget-summary {
+            background-color: #e9e9e9;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        .budget-summary p {
+            margin: 10px 0;
+        }
+        #summaryMonth {
+            font-weight: bold;
+        }
+        button {
+            padding: 8px 16px;
+            border: none;
+            background-color: #007bff;
+            color: white;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .actions {
+            margin-top: 20px;
+            text-align: center;
+        }
+        .expense-list table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        .expense-list th, .expense-list td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+        .expense-list th {
+            background-color: #f8f8f8;
+        }
+        .expense-list td {
+            background-color: #fff;
+        }
+        .expense-list a {
+            text-decoration: none;
+            color: #00f;
+            display: inline-block;
+            margin-top: 10px;
+        }
+    </style>
 </head>
 <body>
     <div class="dashboard">

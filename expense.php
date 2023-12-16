@@ -1,9 +1,9 @@
 <?php
 session_start();
 if (isset($_SESSION["error"])){
-    $error=$_SESSION["error"];
+    $error = $_SESSION["error"];
     unset($_SESSION["error"]);
- }
+}
 ?>
 
 <!DOCTYPE html>
@@ -12,64 +12,126 @@ if (isset($_SESSION["error"])){
    <meta charset="UTF-8">
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
    <title>Add Expense</title>
-   <!-- Stylesheet links and other head elements go here -->
+   <style>
+       body {
+           font-family: Arial, sans-serif;
+           background-color: #f4f4f4;
+           margin: 0;
+           padding: 0;
+           display: flex;
+           flex-direction: column;
+           align-items: center;
+           justify-content: center;
+           min-height: 100vh;
+       }
+       h1 {
+           color: #333;
+       }
+       form {
+           background-color: #fff;
+           padding: 20px;
+           border-radius: 5px;
+           box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+           margin-bottom: 20px;
+       }
+       label {
+           display: block;
+           margin: 10px 0 5px;
+       }
+       input[type="date"],
+       input[type="text"],
+       input[type="number"],
+       select {
+           width: 100%;
+           padding: 10px;
+           margin-bottom: 10px;
+           border: 1px solid #ddd;
+           border-radius: 4px;
+           box-sizing: border-box;
+       }
+       input[type="submit"],
+       button {
+           width: 100%;
+           padding: 10px;
+           border: none;
+           border-radius: 4px;
+           background-color: #007bff;
+           color: white;
+           cursor: pointer;
+           font-size: 16px;
+       }
+       input[type="submit"]:hover,
+       button:hover {
+           background-color: #0056b3;
+       }
+       button {
+           background-color: #28a745;
+           margin-top: 10px;
+       }
+       button:hover {
+           background-color: #218838;
+       }
+       a {
+           color: #007bff;
+           text-decoration: none;
+       }
+       a:hover {
+           text-decoration: underline;
+       }
+       .error-message {
+           color: red;
+           font-weight: bold;
+       }
+   </style>
 </head>
 <body>
-<?php
-// Display the error message if an error is set
-if (isset($error)) {
-    echo "<p>Error: " . htmlspecialchars($error) . "</p>"; // Always escape output
-}
-?>
+
+<?php if (isset($error)) { ?>
+   <div class="error-message">
+       <p>Error: <?php echo htmlspecialchars($error); ?></p>
+   </div>
+<?php } ?>
 
    <h1>Add Expense</h1>
    
    <form action="save_expense.php" method="POST">
        <label for="expenseDate">Date:</label>
-       <input type="date" id="expenseDate" name="expenseDate" required><br><br>
+       <input type="date" id="expenseDate" name="expenseDate" required>
 
        <label for="expenseDescription">Description:</label>
-       <input type="text" id="expenseDescription" name="expenseDescription" required><br><br>
+       <input type="text" id="expenseDescription" name="expenseDescription" required>
 
        <label for="expenseAmount">Amount:</label>
-       <input type="number" step="0.01" id="expenseAmount" name="expenseAmount" required><br><br>
+       <input type="number" step="0.01" id="expenseAmount" name="expenseAmount" required>
 
        <label for="expenseCategory">Category:</label>
        <select id="expenseCategory" name="expenseCategory" required>
-
            <option value="">--Select a Category--</option>
-           
            <?php
            
-           
            $currentMonthName = date('F');
-         
-            require "db.php";
-           // Query the database for categories
-           $sql = "SELECT  name FROM category WHERE person_id='$_SESSION[id]' AND month= '$currentMonthName'"; // Replace with your actual SQL query
-           echo $sql;
-           $result = $conn->query($sql); 
+          
+           require "db.php";
+           $sql = "SELECT name FROM category WHERE person_id='$_SESSION[id]' AND month= '$currentMonthName'";
+           // Replace with your actual SQL query
+           $result = $conn->query($sql);
 
-           // Check if there are results and loop through them to create options
            if ($result->num_rows > 0) {
                while($row = $result->fetch_assoc()) {
-                   echo '<option value="' . $row["name"] . '">' . $row["name"] . '</option>';
+                   echo '<option value="' . htmlspecialchars($row["name"]) . '">' . htmlspecialchars($row["name"]) . '</option>';
                }
            } else {
                echo '<option value="">No categories available</option>';
            }
 
-           // Close the database connection
            $conn->close();
            ?>
-        </select><br><br>
+        </select>
 
-       <input type="submit" value="Add Expense">
-       <button onclick="window.location.href='category.php';">Add Category</button>
+        <input type="submit" value="Add Expense">
+        <button type="button" onclick="window.location.href='category.php';">Add Category</button>
    </form>
-   <!-- Link to go back to the dashboard -->
    <a href="dashboard.php">Back to Dashboard</a>
 
-   <!-- JavaScript files and scripts -->
 </body>
 </html>
