@@ -1,13 +1,36 @@
-<?php
+<?php 
 session_start();
-require "db.php";
+if (!isset($_SESSION['id'])) {
+    // Redirect to login page
+    header('Location: login.html');
+    exit();
+}
 
-$currentMonthName = date('F');
+require "db.php";
+if(isset($_GET["month"])) {
+    $currentMonthName= $_GET["month"];
+}
+else{
+    $currentMonthName = date('F');
+}
+
+$currentMonthTimestamp = strtotime($currentMonthName . " 1 " . date('Y'));
+
+// To get the previous month timestamp and name:
+$previousMonthTimestamp = strtotime('-1 month', $currentMonthTimestamp);
+$previousMonthName = date('F', $previousMonthTimestamp);
+
+// To get the next month timestamp and name:
+$nextMonthTimestamp = strtotime('+1 month', $currentMonthTimestamp);
+$nextMonthName = date('F', $nextMonthTimestamp);
+
 $sql="SELECT budget from budget WHERE month='$currentMonthName' AND person_id='$_SESSION[id]'";
 
 $result=mysqli_query($conn,$sql);
 $budget=mysqli_fetch_array($result);
-
+if(!$budget) {
+    $budget['budget']=0;
+}
 
 // Define query to select expenses from database
 $query = "SELECT * FROM expense WHERE MONTHNAME(tyme) = '$currentMonthName' AND person_id='$_SESSION[id]'  ORDER BY tyme DESC ";
@@ -129,9 +152,9 @@ $conn->close();
         <h1>Budget Dashboard</h1>
 
         <div class="month-selection">
-            <a href="?month=previous" id="prevMonth">&lt; Previous Month</a>
+            <a href="?month=<?php echo $previousMonthName ;?>" id="prevMonth">&lt; Previous Month</a>
             <span id="currentMonth"><?php echo $currentMonthName; ?></span>
-            <a href="?month=next" id="nextMonth">Next Month &gt;</a>
+            <a href="?month=<?php echo $nextMonthName ;?>" id="nextMonth">Next Month &gt;</a>
         </div>
 
         <div class="budget-summary">
@@ -145,8 +168,10 @@ $conn->close();
 
         <div class="actions">
             <!-- Buttons for adding expense and category -->
-            <button onclick="window.location.href='expense.php';">Add Expense</button>
+            <button onclick="window.location.href='expense.php?month=<?php echo $currentMonthName; ?>';">Add Expense</button>
             <button onclick="window.location.href='category.php';">Add Category</button>
+            <button onclick="window.location.href='logout.php';" style="background-color: red; color: white; border: none; padding: 8px 16px; cursor: pointer;">Log out</button>
+
         </div>
 
         <div class="expense-list">

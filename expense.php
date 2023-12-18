@@ -4,6 +4,11 @@ if (isset($_SESSION["error"])){
     $error = $_SESSION["error"];
     unset($_SESSION["error"]);
 }
+if (!isset($_SESSION['id'])) {
+    // Redirect to login page
+    header('Location: login.html');
+    exit();
+}
 ?>
 
 <!DOCTYPE html>
@@ -109,7 +114,12 @@ if (isset($_SESSION["error"])){
            <option value="">--Select a Category--</option>
            <?php
            
-           $currentMonthName = date('F');
+           if(isset($_GET["month"])) {
+            $currentMonthName= $_GET["month"];
+        }
+        else{
+            $currentMonthName = date('F');
+        }
           
            require "db.php";
            $sql = "SELECT name FROM category WHERE person_id='$_SESSION[id]' AND month= '$currentMonthName'";

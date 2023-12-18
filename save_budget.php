@@ -1,7 +1,11 @@
 <?php
- 
+session_start();
 require "db.php";
-
+if (!isset($_SESSION['id'])) {
+    // Redirect to login page
+    header('Location: login.html');
+    exit();
+}
 
 $budget=$_POST["budget"] ;
 $person_id=$_POST["person_id"];
@@ -30,6 +34,7 @@ $bud_month_insert = "INSERT INTO budget (budget, person_id, month) VALUES ('$bud
 
 if ($conn->query($bud_month_insert) === TRUE) {
     echo "budget save successfully!";
+    header("location:dashboard.php");
 } else {
     echo "Error: " . $bud_month_insert . "<br>" . $conn->error;
 }

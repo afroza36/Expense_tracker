@@ -1,6 +1,11 @@
 <?php
 // Start the session
 session_start();
+if (!isset($_SESSION['id'])) {
+    // Redirect to login page
+    header('Location: login.html');
+    exit();
+}
 if (isset($_SESSION["error"])) {
     $error = $_SESSION["error"];
     unset($_SESSION["error"]);
@@ -72,7 +77,7 @@ if (isset($_SESSION["error"])) {
 
 <?php if (isset($error)) { ?>
     <div class="error-message">
-        <p>Error: <?php echo htmlspecialchars($error); ?></p>
+        <p>Error: <?php echo $error; ?></p>
     </div>
 <?php } ?>
 

@@ -1,6 +1,13 @@
 <?php
 session_start();
+if (!isset($_SESSION['id'])) {
+    // Redirect to login page
+    header('Location: login.html');
+    exit();
+}
+
 require "db.php";
+
 $currentMonthName = date('F');
 $query = "SELECT * FROM expense WHERE MONTHNAME(tyme) = '$currentMonthName' AND person_id='$_SESSION[id]'  ORDER BY tyme DESC ";
 $result = $conn->query($query);

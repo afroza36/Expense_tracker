@@ -1,6 +1,11 @@
 <?php
 // Start the session
 session_start();
+if (!isset($_SESSION['id'])) {
+  // Redirect to login page
+  header('Location: login.html');
+  exit();
+}
 ?>
 <!DOCTYPE html>
 <html>

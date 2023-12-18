@@ -1,6 +1,11 @@
 
 <?php
 session_start();
+if (!isset($_SESSION['id'])) {
+    // Redirect to login page
+    header('Location: login.html');
+    exit();
+}
 
 require "db.php";
 
@@ -18,30 +23,24 @@ $result=mysqli_query($conn,$sum_category);
 $sum_category = mysqli_fetch_array($result);
 $prev_total=(int)$sum_category['sum'];
 
-
-
-
 $name = $_POST['categoryName'];
 $budget = $_POST['budget'];
 $person_id=$_POST["person_id"];
 
 
 $category_total=$prev_total+$budget;
-echo $category_total .  ">" . $bud_int;
+
 if ($category_total>$bud_int) {
-     echo $category_total .  ">" . $bud_int;
+   
      $_SESSION['error']='category budget exceeded total budget';
      header('location:category.php');
  }
 else{
 
-
-
-$sql = "INSERT INTO category (name,month,budget,) VALUES ('$name','$month','$budget')";
 $check_category = "SELECT * FROM category WHERE person_id='$person_id' and month='$month'and name='$name'";
 $result=mysqli_query($conn,$check_category);//database query
 
-echo $result->num_rows;
+#echo $result->num_rows;
 if (mysqli_num_rows($result)> 0) {
     $update_que="UPDATE category SET budget = '$budget' WHERE person_id = '$person_id' AND month = '$month' AND name='$name'";
     if ($conn->query($update_que) === TRUE) {
