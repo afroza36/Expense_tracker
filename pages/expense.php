@@ -6,7 +6,7 @@ if (isset($_SESSION["error"])){
 }
 if (!isset($_SESSION['id'])) {
     // Redirect to login page
-    header('Location: login.html');
+    header('Location: pages/login.html');
     exit();
 }
 ?>
@@ -121,7 +121,7 @@ if (!isset($_SESSION['id'])) {
             $currentMonthName = date('F');
         }
           
-           require "db.php";
+           require "../backend/db.php";
            $sql = "SELECT name FROM category WHERE person_id='$_SESSION[id]' AND month= '$currentMonthName'";
            // Replace with your actual SQL query
            $result = $conn->query($sql);

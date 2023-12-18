@@ -1,6 +1,6 @@
 <?php
  
-require "db.php";
+require "../backend/db.php";
 
 $name = $_POST['name'];
 $email = $_POST['email'];
@@ -13,7 +13,7 @@ $sql = "INSERT INTO sign_info (name, email, password) VALUES ('$name', '$email',
 
 if ($conn->query($sql) === TRUE) {
     echo "User registered successfully!";
-    header("location: login.html");
+    header("location: ../pages/login.html");
 } else {
     echo "Error: " . $sql . "<br>" . $conn->error;
 }

@@ -3,7 +3,7 @@
 session_start();
 if (!isset($_SESSION['id'])) {
     // Redirect to login page
-    header('Location: login.html');
+    header('Location:../pages/login.html');
     exit();
 }
 if (isset($_SESSION["error"])) {
@@ -83,7 +83,7 @@ if (isset($_SESSION["error"])) {
 
 <h2>Category Insertion Form</h2>
 
-<form action="save_category.php" method="post">
+<form action="../backend/save_category.php" method="post">
     <label for="categoryName">Category Name:</label>
     <input type="text" id="categoryName" name="categoryName" required>
 

@@ -5,14 +5,14 @@ session_start();
 // If the user is not logged in, redirect them to the login page, or handle the case as needed
 if (!isset($_SESSION['id'])) {
     // Redirect to login page
-    header('Location: login.php');
+    header('Location:../pages/login.html');
     exit();
 }
 
 // Check if the form was submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Database connection parameters (example settings; replace with your own)
-    require "db.php";
+    require "../backend/db.php";
     $personId = $_SESSION['id']; 
     $expenseDate = $_POST['expenseDate'];
     $expenseDescription = $_POST['expenseDescription'];
@@ -38,7 +38,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if ($new_total> $budget["budget"]) {
 
         $_SESSION['error']='expense amount exceeded category  total ';
-        header('location:expense.php');
+        header('location:../pages/expense.php');
     }
 
     else{
@@ -49,7 +49,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if ($conn->query($sql) === TRUE) {
         echo "New record created successfully";
         // Redirect to the dashboard or other appropriate page
-        header('Location: dashboard.php');
+        header('Location: ../pages/dashboard.php');
     } else {
         echo "Error: " . $sql . "<br>" . $conn->error;
     }

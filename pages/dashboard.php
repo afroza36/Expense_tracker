@@ -2,11 +2,11 @@
 session_start();
 if (!isset($_SESSION['id'])) {
     // Redirect to login page
-    header('Location: login.html');
+    header('Location: ../pages/login.html');
     exit();
 }
 
-require "db.php";
+require "../backend/db.php";
 if(isset($_GET["month"])) {
     $currentMonthName= $_GET["month"];
 }
@@ -146,8 +146,11 @@ $conn->close();
             margin-top: 10px;
         }
     </style>
+    <link rel="stylesheet" href="../css/main.css">
+    <script src="../css/main.js" defer></script> 
 </head>
 <body>
+    <?php include "../pages/menu.php" ?>
     <div class="dashboard">
         <h1>Budget Dashboard</h1>
 
@@ -160,7 +163,7 @@ $conn->close();
         <div class="budget-summary">
             <h2>Budget Summary for <span id="summaryMonth">Month Name</span></h2>
             <p>Total Budget: <span id="totalBudget">$ <?php echo $budget['budget'] ?></span>
-            <button onclick="window.location.href='budget.php';">Update Budget</button></p>
+            <button onclick="window.location.href='../pages/budget.php';">Update Budget</button></p>
 
             <p>Total Spent: <span id="totalSpent"><?php echo $total_ex ?></span></p>
             <p>Remaining: <span id="remaining"><?php echo $remain_total_ex ?></span></p>
@@ -168,9 +171,9 @@ $conn->close();
 
         <div class="actions">
             <!-- Buttons for adding expense and category -->
-            <button onclick="window.location.href='expense.php?month=<?php echo $currentMonthName; ?>';">Add Expense</button>
-            <button onclick="window.location.href='category.php';">Add Category</button>
-            <button onclick="window.location.href='logout.php';" style="background-color: red; color: white; border: none; padding: 8px 16px; cursor: pointer;">Log out</button>
+            <button onclick="window.location.href='../pages/expense.php?month=<?php echo $currentMonthName; ?>';">Add Expense</button>
+            <button onclick="window.location.href='../pages/category.php';">Add Category</button>
+            <button onclick="window.location.href='../backend/logout.php';" style="background-color: red; color: white; border: none; padding: 8px 16px; cursor: pointer;">Log out</button>
 
         </div>
 
@@ -200,7 +203,7 @@ $conn->close();
           
                 </tbody>
             </table>
-            <a href="download_expenses.php">Download as CSV</a>
+            <a href="../backend/download_expenses.php">Download as CSV</a>
 
         </div>
     </div>

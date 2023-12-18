@@ -1,0 +1,80 @@
+/* The sidebar menu */
+.sidebar {
+    height: 100%;
+    width: 250px;
+    position: fixed; 
+    z-index: 1;
+    top: 0;
+    left: 0;
+    background-color: #bee3f2;
+    overflow-x: hidden;
+    transition: 0.5s;
+    padding-top: 60px;
+}
+
+/* Sidebar links */
+.sidebar a {
+    padding: 8px 8px 8px 32px;
+    text-decoration: none;
+    font-size: 25px;
+    color: #0b0404;
+    display: block;
+    transition: 0.3s;
+}
+
+/* Link hover effect */
+.sidebar a:hover {
+    color: #285295;
+}
+
+/* The close button */
+.closebtn {
+    position: absolute;
+    top: 0;
+    right: 25px;
+    font-size: 36px;
+    margin-left: 50px;
+}
+
+
+/* The button that opens the sidebar */
+.openbtn {
+    font-size: 20px;
+    cursor: pointer;
+    background-color: #1d829c;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    display: none; /* Start with the button hidden, because the sidebar is open by default */
+    
+}
+
+/* Set a style for the sidebar when it's open */
+.sidebar.open {
+    width: 250px;
+}
+/* Rest of CSS from previous examples */
+
+/* Style for the sidebar heading */
+.sidebar h2 {
+    color: #3f17b7; /* Choose the color that fits your design */
+    text-align: center;
+    padding: 10px; /* Add some padding */
+    margin-top: 0; /* Reset default margin */
+}
+
+
+/* Add some padding to the content, when the sidebar is opened */
+/* Rest of CSS from previous example */
+
+/* Initialize the sidebar to open state */
+
+#main {
+    margin-left: 250px; /* Start with the main content pushed to the right */
+    transition: margin-left .5s;
+}
+
+
+#main.open {
+    margin-left: 250px;
+}

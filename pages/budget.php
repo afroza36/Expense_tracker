@@ -3,7 +3,7 @@
 session_start();
 if (!isset($_SESSION['id'])) {
   // Redirect to login page
-  header('Location: login.html');
+  header('Location: ../pages/login.html');
   exit();
 }
 ?>
@@ -65,7 +65,7 @@ if (!isset($_SESSION['id'])) {
 <body>
   <div class="budget-container">
     <h2>Insert Monthly Budget</h2>
-    <form action="save_budget.php" method="POST">
+    <form action="../backend/save_budget.php" method="POST">
       <label for="budget">Monthly Budget:</label>
       <input type="number" id="budget" name="budget" required>
 

@@ -1,9 +1,9 @@
 <?php
 session_start();
-require "db.php";
+require "../backend/db.php";
 if (!isset($_SESSION['id'])) {
     // Redirect to login page
-    header('Location: login.html');
+    header('Location:../pages/login.html');
     exit();
 }
 
@@ -20,7 +20,7 @@ if (mysqli_num_rows($result)> 0) {
     $update_que="UPDATE budget SET budget = '$budget' WHERE person_id = '$person_id' AND month = '$month'";
     if ($conn->query($update_que) === TRUE) {
         echo "budget updated successfully!";
-        header("location:dashboard.php");
+        header("location:../pages/dashboard.php");
     } else {
         echo "Error: " . $update_que . "<br>" . $conn->error;
     }
@@ -34,7 +34,7 @@ $bud_month_insert = "INSERT INTO budget (budget, person_id, month) VALUES ('$bud
 
 if ($conn->query($bud_month_insert) === TRUE) {
     echo "budget save successfully!";
-    header("location:dashboard.php");
+    header("location:../pages/dashboard.php");
 } else {
     echo "Error: " . $bud_month_insert . "<br>" . $conn->error;
 }
