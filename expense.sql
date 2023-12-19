@@ -2,10 +2,10 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1:3366
--- Generation Time: Dec 18, 2023 at 01:15 PM
--- Server version: 10.4.28-MariaDB
--- PHP Version: 8.0.28
+-- Host: localhost
+-- Generation Time: Dec 19, 2023 at 05:08 AM
+-- Server version: 8.0.31
+-- PHP Version: 7.4.33
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -28,10 +28,10 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `budget` (
-  `id` int(11) NOT NULL,
-  `budget` int(11) DEFAULT NULL,
-  `person_id` int(11) DEFAULT NULL,
-  `month` varchar(50) NOT NULL
+  `id` int NOT NULL,
+  `budget` int DEFAULT NULL,
+  `person_id` int DEFAULT NULL,
+  `month` varchar(50) COLLATE utf8mb4_general_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -44,9 +44,10 @@ INSERT INTO `budget` (`id`, `budget`, `person_id`, `month`) VALUES
 (4, 4000, 2, ''),
 (5, 3460, 2, 'March'),
 (6, 6500, 3, 'May'),
-(7, 20000, 1, 'December'),
+(7, 21000, 1, 'December'),
 (8, 4500, 1, 'March'),
-(9, 8000, 1, 'August');
+(9, 8000, 1, 'August'),
+(10, 20000, 1, 'November');
 
 -- --------------------------------------------------------
 
@@ -55,11 +56,11 @@ INSERT INTO `budget` (`id`, `budget`, `person_id`, `month`) VALUES
 --
 
 CREATE TABLE `category` (
-  `id` int(11) NOT NULL,
-  `name` varchar(255) DEFAULT NULL,
-  `month` varchar(50) DEFAULT NULL,
-  `budget` varchar(50) DEFAULT NULL,
-  `person_id` int(11) DEFAULT NULL
+  `id` int NOT NULL,
+  `name` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `month` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `budget` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `person_id` int DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -74,7 +75,8 @@ INSERT INTO `category` (`id`, `name`, `month`, `budget`, `person_id`) VALUES
 (11, 'cloth', 'March', '10000', 1),
 (12, 'food', 'August', '400', 1),
 (13, 'cloth', 'August', '6000', 1),
-(14, 'movie', 'August', '700', 1);
+(14, 'movie', 'August', '700', 1),
+(15, 'food', 'November', '1000', 1);
 
 -- --------------------------------------------------------
 
@@ -83,23 +85,26 @@ INSERT INTO `category` (`id`, `name`, `month`, `budget`, `person_id`) VALUES
 --
 
 CREATE TABLE `expense` (
-  `id` int(11) NOT NULL,
-  `category` varchar(50) DEFAULT NULL,
-  `tyme` varchar(50) DEFAULT NULL,
-  `amount` varchar(50) DEFAULT NULL,
-  `description` varchar(255) DEFAULT NULL,
-  `person_id` int(11) DEFAULT NULL
+  `id` int NOT NULL,
+  `category` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `tyme` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `amount` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `description` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `person_id` int DEFAULT NULL,
+  `location` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
+  `pay_method` varchar(100) COLLATE utf8mb4_general_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `expense`
 --
 
-INSERT INTO `expense` (`id`, `category`, `tyme`, `amount`, `description`, `person_id`) VALUES
-(1, 'movie', '2023-12-15', '250', 'netflix', 1),
-(2, 'food', '2023-12-25', '340', 'burger', 1),
-(3, 'lippi', '2023-12-26', '340', 'nirvana', 1),
-(4, 'food', '2023-12-20', '600', 'burger', 1);
+INSERT INTO `expense` (`id`, `category`, `tyme`, `amount`, `description`, `person_id`, `location`, `pay_method`) VALUES
+(1, 'movie', '2023-12-15', '250', 'netflix', 1, '', ''),
+(2, 'food', '2023-12-25', '340', 'burger', 1, '', ''),
+(3, 'lippi', '2023-12-26', '340', 'nirvana', 1, '', ''),
+(4, 'food', '2023-12-20', '600', 'burger', 1, '', ''),
+(5, 'food', '2023-11-19', '200', 'Something', 1, '', '');
 
 -- --------------------------------------------------------
 
@@ -108,10 +113,10 @@ INSERT INTO `expense` (`id`, `category`, `tyme`, `amount`, `description`, `perso
 --
 
 CREATE TABLE `sign_info` (
-  `id` int(10) NOT NULL,
-  `name` varchar(255) NOT NULL,
-  `email` varchar(255) NOT NULL,
-  `password` varchar(255) NOT NULL
+  `id` int NOT NULL,
+  `name` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
+  `email` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
+  `password` varchar(255) COLLATE utf8mb4_general_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -162,25 +167,25 @@ ALTER TABLE `sign_info`
 -- AUTO_INCREMENT for table `budget`
 --
 ALTER TABLE `budget`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `category`
 --
 ALTER TABLE `category`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `expense`
 --
 ALTER TABLE `expense`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `sign_info`
 --
 ALTER TABLE `sign_info`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- Constraints for dumped tables
