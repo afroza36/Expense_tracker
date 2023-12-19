@@ -1,45 +1,43 @@
 <?php
 session_start();
-if (!isset($_SESSION['id'])) {
-    // Redirect to login page
-    header('Location: login.html');
-    exit();
-}
 
-require "db.php";
+require_once "../backend/db.php";
 
-$currentMonthName = date('F');
-$query = "SELECT * FROM expense WHERE MONTHNAME(tyme) = '$currentMonthName' AND person_id='$_SESSION[id]'  ORDER BY tyme DESC ";
-$result = $conn->query($query);
-$expenses = [];
-while($row = $result->fetch_assoc()) {
-    $expenses[] = $row;
-}
-// Filename for the CSV download
-$filename = "expenses_" . date('Ymd') . ".csv";
+header('Content-Type: text/csv; charset=utf-8');
+header('Content-Disposition: attachment; filename=expenses.csv');
 
-// Set the Content-Type and Content-Disposition headers to force the download.
-header('Content-Type: text/csv');
-header('Content-Disposition: attachment; filename="' . $filename . '"');
-
-// Open the PHP output stream
 $output = fopen('php://output', 'w');
+fputcsv($output, array('Date', 'Description', 'Category', 'Amount')); // CSV Header
 
-// Optional: If you want the keys to be saved as the first row as headers in the CSV
-fputcsv($output, array('Date', 'Description', 'Category', 'Amount'));
+if (isset($_SESSION['id'])) {
+    $person_id = $_SESSION['id'];
 
-// Loop over the array of expenses and output each row
-foreach($expenses as $expense) {
-    fputcsv($output, array(
-        $expense['tyme'],
-        $expense['description'],
-        $expense['category'],
-        $expense['amount']  // Make sure this is a string or number, not a float or string representation of money
-    ));
+    $whereClauses = [];
+
+    if (isset($_GET['category']) && $_GET['category'] !== '' && $_GET['category'] !== 'All') {
+        $category = $conn->real_escape_string($_GET['category']);
+        $whereClauses[] = "category = '$category'";
+    }
+
+    if (isset($_GET['startdate']) && isset($_GET['enddate'])) {
+        $startDate = $conn->real_escape_string($_GET['startdate']);
+        $endDate = $conn->real_escape_string($_GET['enddate']);
+        $whereClauses[] = "DATE(tyme) BETWEEN '$startDate' AND '$endDate'";
+    }
+
+    $whereSQL = !empty($whereClauses) ? 'AND ' . implode(' AND ', $whereClauses) : '';
+
+    $query = "SELECT * FROM expense WHERE person_id='$person_id' $whereSQL ORDER BY tyme DESC";
+    $result = $conn->query($query);
+
+    if ($result) {
+        while ($row = $result->fetch_assoc()) {
+            fputcsv($output, array($row['tyme'], $row['description'], $row['category'], $row['amount']));
+        }
+    }
+
+    $conn->close();
+} else {
+    header('Location: ../pages/login.html');
 }
-
-// Close the output stream
-fclose($output);
-
-// Terminate the script
-exit();
+?>

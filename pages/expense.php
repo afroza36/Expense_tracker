@@ -99,7 +99,7 @@ if (!isset($_SESSION['id'])) {
 
    <h1>Add Expense</h1>
    
-   <form action="save_expense.php" method="POST">
+   <form action="../backend/save_expense.php" method="POST">
        <label for="expenseDate">Date:</label>
        <input type="date" id="expenseDate" name="expenseDate" required>
 
@@ -108,6 +108,21 @@ if (!isset($_SESSION['id'])) {
 
        <label for="expenseAmount">Amount:</label>
        <input type="number" step="0.01" id="expenseAmount" name="expenseAmount" required>
+
+       <label for="expenseLocation">Location:</label>
+       <input type="text" id="expenseLocation" name="expenseLocation" required>
+
+       <label for="expensePaymentMethod">Payment Method:</label>
+         <select id="expensePaymentMethod" name="expensePaymentMethod" required>
+              <option value="">--Select a Payment Method--</option>
+              <option value="Cash">Cash</option>
+              <option value="Credit Card">Credit Card</option>
+              <option value="Debit Card">Debit Card</option>
+              <option value=Bkash">Bkash</option>
+              <option value="Nagad">Nagad</option>
+              <option value="Other">Other</option>
+        </select>
+
 
        <label for="expenseCategory">Category:</label>
        <select id="expenseCategory" name="expenseCategory" required>

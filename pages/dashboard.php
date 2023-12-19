@@ -55,6 +55,28 @@ while($row = $result->fetch_assoc()) {
 }
 
 
+$category_expense_query = "
+    SELECT 
+        category AS category_name, 
+        SUM(amount) AS total_amount 
+    FROM 
+        expense 
+    WHERE 
+        MONTHNAME(tyme) = '$currentMonthName' AND 
+        person_id = '".$_SESSION['id']."' 
+    GROUP BY 
+        category 
+    ORDER BY 
+        total_amount DESC";
+
+$category_expense_result = mysqli_query($conn, $category_expense_query);
+
+$category_expenses = [];
+while($category_row = $category_expense_result->fetch_assoc()) {
+    $category_expenses[] = $category_row;
+}
+
+
 // Close the connection
 $conn->close();
 ?>
@@ -83,6 +105,9 @@ $conn->close();
             margin: 20px auto;
             padding: 20px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
         h1, h2 {
             color: #333;
@@ -145,6 +170,26 @@ $conn->close();
             display: inline-block;
             margin-top: 10px;
         }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Ensures cards are responsive */
+            gap: 20px;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        .grid:first-of-type {
+            margin-bottom: 40px; /* This creates space between your first grid and the second grid */
+        }
+
+        .card {
+            background-color: #ffffff;
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.05);
+        }
     </style>
     <link rel="stylesheet" href="../css/main.css">
     <script src="../css/main.js" defer></script> 
@@ -160,51 +205,30 @@ $conn->close();
             <a href="?month=<?php echo $nextMonthName ;?>" id="nextMonth">Next Month &gt;</a>
         </div>
 
-        <div class="budget-summary">
-            <h2>Budget Summary for <span id="summaryMonth">Month Name</span></h2>
-            <p>Total Budget: <span id="totalBudget">$ <?php echo $budget['budget'] ?></span>
-            <button onclick="window.location.href='../pages/budget.php';">Update Budget</button></p>
-
-            <p>Total Spent: <span id="totalSpent"><?php echo $total_ex ?></span></p>
-            <p>Remaining: <span id="remaining"><?php echo $remain_total_ex ?></span></p>
+        <div class="grid" style="margin-bottom: 40px;">
+            <div class="card">
+                <h2>Total Budget</h2>
+                <p><strong>$<?= $budget['budget'] ?></strong></p>
+                <button onclick="window.location.href='../pages/budget.php';">Update Budget</button>
+            </div>
+            <div class="card">
+                <h2>Total Spent</h2>
+                <p><strong>$<?= $total_ex ?></strong></p>
+            </div>
+            <div class="card">
+                <h2>Remaining</h2>
+                <p><strong>$<?= $remain_total_ex ?></strong></p>
+            </div>
         </div>
-
-        <div class="actions">
-            <!-- Buttons for adding expense and category -->
-            <button onclick="window.location.href='../pages/expense.php?month=<?php echo $currentMonthName; ?>';">Add Expense</button>
-            <button onclick="window.location.href='../pages/category.php';">Add Category</button>
-            <button onclick="window.location.href='../backend/logout.php';" style="background-color: red; color: white; border: none; padding: 8px 16px; cursor: pointer;">Log out</button>
-
-        </div>
-
-        <div class="expense-list">
-            <h2>Expenses</h2>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Date</th>
-                        <th>Description</th>
-                        <th>Category</th>
-                        <th>Amount</th>
-                    </tr>
-                </thead>
-
-                <tbody>
-                      
-                <!-- PHP code to dynamically list expenses -->
-                <?php foreach($expenses as $expense): ?>
-                <tr>
-                    <td><?php echo htmlspecialchars($expense['tyme']); ?></td>
-                    <td><?php echo htmlspecialchars($expense['description']); ?></td>
-                    <td><?php echo htmlspecialchars($expense['category']); ?></td>
-                    <td><?php echo htmlspecialchars($expense['amount']); ?></td>
-                </tr>
-                <?php endforeach; ?>
-          
-                </tbody>
-            </table>
-            <a href="../backend/download_expenses.php">Download as CSV</a>
-
+        
+        <!-- Category wise cards -->
+        <div class="grid">
+            <?php foreach($category_expenses as $cat_exp): ?>
+            <div class="card">
+                <h3><?= htmlspecialchars($cat_exp['category_name']) ?></h3>
+                <p>Total Spent: <strong>$<?= number_format($cat_exp['total_amount'], 2) ?></strong></p>
+            </div>
+            <?php endforeach; ?>
         </div>
     </div>
 

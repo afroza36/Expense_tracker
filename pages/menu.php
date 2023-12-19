@@ -1,6 +1,7 @@
 <div id="sidebar" class="sidebar">
     <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
     <h2>Expense Tracker</h2>
+    <a href="../pages/dashboard.php">Dashboard</a>
     <a href="../pages/expense.php?month=<?php echo $currentMonthName; ?>">Add Expense</a>
     <a href="../pages/category.php">Add Category</a>
     <a href="../pages/history.php">view history</a>

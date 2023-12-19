@@ -18,6 +18,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $expenseDescription = $_POST['expenseDescription'];
     $expenseAmount = $_POST['expenseAmount'];
     $expenseCategory = $_POST['expenseCategory'];
+    $expenseLocation = $_POST['expenseLocation'];
+    $expensePaymentMethod = $_POST['expensePaymentMethod'];
     
     $cat_budget=" SELECT budget FROM category WHERE name='$expenseCategory' AND person_id='$_SESSION[id]' AND month=MONTHNAME('$expenseDate') ";
     $result=mysqli_query($conn,$cat_budget);
@@ -43,7 +45,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     else{
         
-    $sql = "INSERT INTO expense (person_id, tyme, description, amount, category) VALUES ('$personId', '$expenseDate', '$expenseDescription', '$expenseAmount', '$expenseCategory')";
+    $sql = "INSERT INTO expense (person_id, tyme, description, amount, category, location, pay_method) VALUES ('$personId', '$expenseDate', '$expenseDescription', '$expenseAmount', '$expenseCategory', '$expenseLocation', '$expensePaymentMethod')";
 
     // Execute the query and check if it was successful
     if ($conn->query($sql) === TRUE) {

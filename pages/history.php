@@ -134,8 +134,14 @@ $conn->close();
             <input type="date" name="startdate" id="start-date">
             <label for="end-date">End Date: </label>
             <input type="date" name="enddate" id="end-date">
-            <label for="expenseCategory">Category:</label>
-       <select id="expenseCategory" name="expenseCategory" required>
+            <input type="submit" value="Filter">
+        </form>
+
+        <br>
+
+        <form action="#" method="POST">
+        <label for="category">Category:</label>
+       <select id="Category" name="category" required>
            <option value="">--Select a Category--</option>
            <option value="All">--Select all--</option>
 
@@ -181,17 +187,22 @@ $conn->close();
                 <!-- PHP code to dynamically list expenses -->
                 <?php
                 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-                    $filteredExpenses = array_filter($expenses, function($expense) {
-                        $startDate = date_create($_POST['startdate']);
-                        $endDate = date_create($_POST['enddate']);
-                        $expenseDate = date_create($expense['tyme']);
-                        return ($expenseDate >= $startDate && $expenseDate <= $endDate);
-                    });
+                    
 
                     if (isset($_POST['category']) && $_POST['category'] !== 'All') {
-                        $filteredExpenses = array_filter($filteredExpenses, function($expense) {
+                        $filteredExpenses = array_filter($expenses, function($expense) {
                             return strtolower($expense['category']) === strtolower($_POST['category']);
                         });
+                    }
+                    elseif(isset($_POST['startdate']) && isset($_POST['enddate'])) {
+                        $filteredExpenses = array_filter($expenses, function($expense) {
+                            $startDate = date_create($_POST['startdate']);
+                            $endDate = date_create($_POST['enddate']);
+                            $expenseDate = date_create($expense['tyme']);
+                            return ($expenseDate >= $startDate && $expenseDate <= $endDate);
+                        });
+                    }else{
+                        $filteredExpenses = $expenses;
                     }
                 } else {
                     $filteredExpenses = $expenses;
@@ -208,7 +219,28 @@ $conn->close();
             </tbody>
 
         </table>
-        <a href="../backend/download_expenses.php">Download as CSV</a>
+        <?php
+            // Initialize variables for query parameters
+            $categoryParam = '';
+            $dateParams = '';
+
+            // Check if the category is set and not 'All'
+            if (isset($_POST['category']) && $_POST['category'] !== '' && $_POST['category'] !== 'All') {
+                $categoryParam = 'category=' . urlencode($_POST['category']);
+            }
+
+            // Check if the start date and end date are set
+            if (isset($_POST['startdate']) && isset($_POST['enddate']) && $_POST['startdate'] !== '' && $_POST['enddate'] !== '') {
+                $dateParams = 'startdate=' . $_POST['startdate'] . '&enddate=' . $_POST['enddate'];
+            }
+
+            // Combine parameters for the download link
+            $queryParams = array_filter([$categoryParam, $dateParams]);
+            $queryString = !empty($queryParams) ? '?' . implode('&', $queryParams) : '';
+
+            // Output the download link
+            echo '<a href="../backend/download_expenses.php' . $queryString . '">Download as CSV</a>';
+        ?>
     </div>
     </div>
 
